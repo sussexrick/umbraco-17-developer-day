@@ -24,6 +24,10 @@
     <None Include="Client\public\umbraco-package.json" Pack="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Client\src\elements\" />
+  </ItemGroup>
+
   <!-- Restore and build Client files -->
   <Target Name="RestoreClient" Inputs="Client\package.json;Client\package-lock.json" Outputs="Client\node_modules\.package-lock.json">
     <Message Importance="high" Text="Restoring Client NPM packages..." />
