@@ -14,5 +14,13 @@ export const manifests: Array<UmbExtensionManifest> = [
                 match: "Umb.Section.Content"
             }
         ]
+    },
+    {
+        type: 'blockEditorCustomView',
+        alias: 'Example.blockEditorCustomView.Product',
+        name: 'Example Block Editor Custom View for Product Block of Block List Editors',
+        element: () => import('./elements/example-backoffice-view'),
+        forContentTypeAlias: 'product',
+        forBlockEditor: 'block-list',
     }
 ];
