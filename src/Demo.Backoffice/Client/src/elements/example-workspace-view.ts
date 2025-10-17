@@ -7,6 +7,7 @@ import {
 } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
+import { type UmbCurrentUserModel, UMB_CURRENT_USER_CONTEXT } from "@umbraco-cms/backoffice/current-user";
 
 export class UserActivity {
   key?: string
@@ -22,10 +23,22 @@ export class ExampleWorkspaceViewElement extends UmbElementMixin(LitElement) {
   @state()
   private _userActivity!: UserActivity[];
 
+@state()
+private _currentUser?: UmbCurrentUserModel;
+
   constructor() {
       super();
+      this.consumeContext(UMB_CURRENT_USER_CONTEXT, (instance) => {
+        this._observeCurrentUser(instance!);
+        this.#getData();
+    });
+
+  }
   
-      this.#getData();
+    private async _observeCurrentUser(instance: typeof UMB_CURRENT_USER_CONTEXT.TYPE) {
+    this.observe(instance.currentUser, (currentUser) => {
+        this._currentUser = currentUser;
+    });
   }
 
   async #getData() {
@@ -37,7 +50,7 @@ export class ExampleWorkspaceViewElement extends UmbElementMixin(LitElement) {
               scheme: "bearer"
           }
         ],
-        url: "/umbraco/management/api/v1/user-activity/1e70f841-c261-413b-abb2-2d68cdb96094"
+        url: `/umbraco/management/api/v1/user-activity/${this._currentUser?.unique}`
       }
     );
 
@@ -50,7 +63,7 @@ export class ExampleWorkspaceViewElement extends UmbElementMixin(LitElement) {
     return html`<uui-table>
       <uui-table-head>
         <uui-table-head-cell>Action</uui-table-head-cell>
-        <uui-table-head-cell>Entity Type</uui-table-head-cell>
+        <uui-table-head-cell>Entity type</uui-table-head-cell>
         <uui-table-head-cell>Date</uui-table-head-cell>
       </uui-table-head>
       ${repeat(
@@ -59,7 +72,7 @@ export class ExampleWorkspaceViewElement extends UmbElementMixin(LitElement) {
         (item) => html`<uui-table-row>
             <uui-table-cell>${item.auditType}</uui-table-cell>
             <uui-table-cell>${item.entityType}</uui-table-cell>
-            <uui-table-cell>${new Date(item.createDate!).toLocaleDateString()}</uui-table-cell>
+            <uui-table-cell>${new Date(item.createDate!).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</uui-table-cell>
           </uui-table-row>`
       )}
     </uui-table>`;
@@ -69,6 +82,7 @@ export class ExampleWorkspaceViewElement extends UmbElementMixin(LitElement) {
     return html`
       <uui-box headline="User Activity">
         ${this._userActivity.length ? this.renderTable() : 'No activity to show'}
+        <uui-button look="secondary" @click=${this.#getData}>Refresh</uui-button>
       </uui-box>
     `;
   }
