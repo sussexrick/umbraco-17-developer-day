@@ -1,0 +1,17 @@
+﻿{
+  "icon": "icon-folder",
+  "root": "C:\\Users\\rickm\\Documents\\Umbraco\\Umbraco17DevDay\\umbraco-17-developer-day\\src\\Demo.Web\\uSync\\Migrate\\test-migration",
+  "id": "test-migration",
+  "version": 8,
+  "name": "Test migration",
+  "source": "uSync/v9",
+  "siteFolder": null,
+  "target": "uSync/Migrations/20251017_143134",
+  "migrated": true,
+  "importStatus": {
+    "Settings": true,
+    "Content": true
+  },
+  "plan": "BlockListMigrationPlan",
+  "clientId": "si_DTStz83Dz1Yb6Ilpg1A"
+}
