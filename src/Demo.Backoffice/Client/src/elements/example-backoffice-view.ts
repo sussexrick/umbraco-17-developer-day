@@ -24,8 +24,8 @@ export class ExampleBlockCustomView extends UmbElementMixin(LitElement) implemen
     override render() {
         return html`
             <h4>My Custom View</h4>
-            <p>Headline: ${this.content?.headline}</p>
-            <p>With setting: ${this.settings?.toggleSetting ? 'On' : 'Off'}</p>
+            <p>Product name: ${this.content?.productName}</p>
+            <p>Available: ${this.settings?.available ? 'On' : 'Off'}</p>
         `;
     }
 
@@ -35,7 +35,7 @@ export class ExampleBlockCustomView extends UmbElementMixin(LitElement) implemen
                 display: block;
                 height: 100%;
                 box-sizing: border-box;
-                background-color: yellow;
+                background-color: palegoldenrod;
                 border-radius: 9px;
                 padding: 12px;
             }
